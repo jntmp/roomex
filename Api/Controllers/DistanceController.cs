@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,25 +10,34 @@ namespace Api.Controllers;
 public class DistanceController : ControllerBase
 {
     private readonly ILogger<DistanceController> _logger;
-    private IDistanceCalculatorService _distanceCalculatorService;
 
-    public DistanceController(ILogger<DistanceController> logger, IDistanceCalculatorService distanceCalculatorService)
+    public DistanceController(ILogger<DistanceController> logger)
     {
         _logger = logger;
-        _distanceCalculatorService = distanceCalculatorService;
     }
 
-    [HttpGet(Name = "CalculateDistance")]
-    public ActionResult<double> Get([FromQuery] Coordinates start, [FromQuery] Coordinates end)
+    [HttpGet]
+		[Produces(MediaTypeNames.Application.Json)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(typeof(CalculateResponse), StatusCodes.Status200OK)]
+    public ActionResult<CalculateResponse> Calculate([FromQuery] CalculateRequest request, 
+			[FromServices] IDistanceCalculatorService distanceCalculatorService)
     {
         if (!ModelState.IsValid)
         {
+						_logger.LogError("{method} request failed with invalid parameters {request}", nameof(Calculate), request);
             return BadRequest(ModelState);
         }
 
-        var distance = _distanceCalculatorService.CalculateDistance(start, end);
+        var distance = distanceCalculatorService.CalculateDistance(request.Start, request.End);
 
-        return Ok(distance);
+				var response = new CalculateResponse
+				{
+					Distance = distance,
+					Unit = "km"
+				};
+
+        return Ok(response);
     }
 
 }
