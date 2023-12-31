@@ -1,31 +1,35 @@
-using Api.Services;
+using System.Text.Json.Serialization;
+using Api.Calculators;
+using Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddSingleton<IDistanceCalculatorService, DistanceCalculatorService>();
+builder.Services.AddSingleton<IDistanceCalculator, DistanceCalculator>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => 
+{
+		options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
-builder.Logging.AddConsole();
-builder.Services.AddHttpLogging(options => {});
+builder.Services.AddLogging(builder =>
+{
+		builder.AddConsole();
+});
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
+app.UseCustomHttpLogging();
 
-app.UseHttpLogging();
 app.MapControllers();
 
 app.Run();
+
