@@ -1,0 +1,28 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": ".NET Core Test",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/Test/bin/Debug/net6.0/Test.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+			"pipeTransport": {
+        "pipeProgram": "dotnet",
+        "pipeArgs": [
+          "exec",
+          "--runtimeconfig",
+          "${workspaceFolder}/Test/bin/Debug/net6.0/Test.runtimeconfig.json",
+          "--depsfile",
+          "${workspaceFolder}/Test/bin/Debug/net6.0/Test.deps.json"
+        ],
+        "debuggerPath": "/usr/lib/dotnet/shared/Microsoft.NETCore.App/6.0.0"
+      },
+		}
+	]
+}

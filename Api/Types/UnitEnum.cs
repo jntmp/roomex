@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Api.Enums;
+namespace Api.Types;
 
 public enum UnitEnum
 {

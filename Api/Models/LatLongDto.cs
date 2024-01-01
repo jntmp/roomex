@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Models;
 
-public class Coordinates
+public class LatLongDto
 {
     [Required(ErrorMessage = "Latitude is required.")]
     [Range(-90, 90, ErrorMessage = "Latitude must be between -90 and 90.")]

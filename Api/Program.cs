@@ -1,35 +1,46 @@
 using System.Text.Json.Serialization;
 using Api.Calculators;
 using Api.Extensions;
+using Api.Services.Interfaces;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Api;
 
-builder.Services.AddSingleton<IDistanceCalculator, DistanceCalculator>();
-
-builder.Services.AddControllers().AddJsonOptions(options => 
+public class Program
 {
-		options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
+	public static void Main(string[] args)
+	{
+		var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddLogging(builder =>
-{
-		builder.AddConsole();
-});
+		builder.Services.AddSingleton<IDistanceCalculator, DistanceCalculator>();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+		builder.Services.AddControllers().AddJsonOptions(options => 
+		{
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+		});
 
-var app = builder.Build();
+		builder.Services.AddLogging(builder =>
+		{
+				builder.AddConsole();
+		});
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+		builder.Services.AddEndpointsApiExplorer();
+		builder.Services.AddSwaggerGen();
+		builder.Services.AddAutoMapper(typeof(ApiMappingProfile));
+
+		var app = builder.Build();
+
+		if (app.Environment.IsDevelopment())
+		{
+				app.UseSwagger();
+				app.UseSwaggerUI();
+		}
+
+		app.UseCustomHttpLogging();
+
+		app.MapControllers();
+
+		app.Run();
+
+	}
 }
-
-app.UseCustomHttpLogging();
-
-app.MapControllers();
-
-app.Run();
 

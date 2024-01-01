@@ -1,6 +1,8 @@
 using Api.Models;
-using Api.Calculators;
 using Microsoft.AspNetCore.Mvc;
+using Api.Services;
+using AutoMapper;
+using Api.Services.Interfaces;
 
 namespace Api.Controllers;
 
@@ -8,14 +10,24 @@ namespace Api.Controllers;
 [Route("[controller]")]
 public class DistanceController : ControllerBase
 {
+	private readonly IDistanceService _distanceService;
+	private readonly IMapper _mapper;
+	
+	public DistanceController(IMapper mapper, DistanceService distanceService)
+	{
+		_distanceService = distanceService;
+		_mapper = mapper;
+	}
+
 	[HttpGet]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	[ProducesResponseType(typeof(CalculateResponse), StatusCodes.Status200OK)]
-	public ActionResult<CalculateResponse> Calculate([FromQuery] CalculateRequest request, 
-		[FromServices] IDistanceCalculator distanceCalculator)
+	[ProducesResponseType(typeof(CalculateDistanceResponse), StatusCodes.Status200OK)]
+	public ActionResult<CalculateDistanceResponse> Calculate([FromQuery] CalculateDistanceRequest request)
 	{
-        double distance = distanceCalculator.Calculate(request.Start, request.End, request.Unit);
+			var LatLongPairDto = _mapper.Map<LatLongPairDto>(request);
 
-        return Ok(CalculateResponse.Map(distance, request.Unit));
+			var distanceServiceResponse = _distanceService.CalculateDistance(LatLongPairDto, request.Locale);
+
+			return Ok(distanceServiceResponse);
 	}
 }
