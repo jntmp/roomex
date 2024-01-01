@@ -5,26 +5,39 @@ namespace Api.Calculators;
 
 public class DistanceCalculator : IDistanceCalculator
 {
-		private const double EarthDiameter = 456;
+	private Dictionary<UnitEnum, double> EarthRadiusByUnit => new Dictionary<UnitEnum, double> {
+	 	{ UnitEnum.Kilometres, 6371.0 },
+		{ UnitEnum.Miles, 3958.75587 }
+	};
 
     public double Calculate(Coordinates start, Coordinates end, UnitEnum unit)
     {
-			if (unit != UnitEnum.Kilometres) {
-				// do conversion and return
-			}
-      
-			// return original
-			return 123;
+		// Convert degrees to radians
+		var startRadians = DegreesToRadians(start);
+        var endRadians = DegreesToRadians(end);
+
+        // Haversine formula
+        var dLat = endRadians.Latitude - startRadians.Latitude;
+        var dLon = endRadians.Longitude - startRadians.Longitude;
+
+        var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(startRadians.Latitude) * Math.Cos(endRadians.Latitude) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+		// use distance unit based on provided param
+        var distance = EarthRadiusByUnit[unit] * c;
+
+		return distance;
     }
 
-		private double Convert(double distance, UnitEnum unit)
+	private Coordinates DegreesToRadians(Coordinates coordinates)
+    {
+		return new Coordinates
 		{
-				switch (unit)
-				{
-					case UnitEnum.Kilometres:
-					case UnitEnum.Miles:
-					default:
-						return distance;
-				}
-		}
+			Latitude = coordinates.Latitude * Math.PI / 180.0,
+			Longitude = coordinates.Longitude * Math.PI / 180.0
+		};
+    }
 }
