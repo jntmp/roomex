@@ -10,7 +10,7 @@ public class DistanceCalculator : IDistanceCalculator
 {
 	private const double EarthRadius = 6371.0;
 
-	public double Calculate(LatLongPairDto request)
+	public double Calculate(GeoLocationRangeDto request)
 	{
 		// Convert degrees to radians
 		var startRadians = DegreesToRadians(request.Start);
@@ -31,12 +31,12 @@ public class DistanceCalculator : IDistanceCalculator
 		return distance;
 	}
 
-	private LatLongDto DegreesToRadians(LatLongDto LatLongDto)
+	private GeoLocationDto DegreesToRadians(GeoLocationDto GeoLocationDto)
 	{
-		return new LatLongDto
+		return new GeoLocationDto
 		{
-			Latitude = LatLongDto.Latitude * Math.PI / 180.0,
-			Longitude = LatLongDto.Longitude * Math.PI / 180.0
+			Latitude = GeoLocationDto.Latitude * Math.PI / 180.0,
+			Longitude = GeoLocationDto.Longitude * Math.PI / 180.0
 		};
 	}
 }

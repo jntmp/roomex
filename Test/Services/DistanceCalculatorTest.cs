@@ -22,9 +22,9 @@ public class DistanceCalculatorTest
     [TestMethod]
     public void WhenCalculate_WithValidParams_ReturnsResult()
     {
-				var latLongPair = new LatLongPairDto {
-					Start = new LatLongDto() { Latitude = 1, Longitude = 1 },
-					End = new LatLongDto() { Latitude = 5, Longitude = 5 }
+				var latLongPair = new GeoLocationRangeDto {
+					Start = new GeoLocationDto() { Latitude = 1, Longitude = 1 },
+					End = new GeoLocationDto() { Latitude = 5, Longitude = 5 }
 				};
         
         var distance = _distanceCalculator.Calculate(latLongPair);
@@ -35,9 +35,9 @@ public class DistanceCalculatorTest
     [TestMethod]
     public void WhenCalculate_WithSameStartAndEnd_ReturnsZero()
     {
-			var latLongPair = new LatLongPairDto {
-        Start = new LatLongDto() { Latitude = 1, Longitude = 1 },
-        End = new LatLongDto() { Latitude = 1, Longitude = 1 }
+			var latLongPair = new GeoLocationRangeDto {
+        Start = new GeoLocationDto() { Latitude = 1, Longitude = 1 },
+        End = new GeoLocationDto() { Latitude = 1, Longitude = 1 }
 			};
         
 				var distance = _distanceCalculator.Calculate(latLongPair);

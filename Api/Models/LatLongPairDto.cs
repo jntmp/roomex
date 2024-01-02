@@ -1,8 +1,8 @@
 namespace Api.Models;
 
-public class LatLongPairDto
+public class GeoLocationRangeDto
 {
-	public LatLongDto Start {get;set;}
-	public LatLongDto End {get;set;}
+	public GeoLocationDto Start {get;set;}
+	public GeoLocationDto End {get;set;}
 	
 }

@@ -23,9 +23,9 @@ public class DistanceController : ControllerBase
 	[ProducesResponseType(typeof(CalculateDistanceResponse), StatusCodes.Status200OK)]
 	public ActionResult<CalculateDistanceResponse> Calculate([FromQuery] CalculateDistanceRequest request)
 	{
-			var latLongPairDto = _mapper.Map<LatLongPairDto>(request);
+			var GeoLocationRangeDto = _mapper.Map<GeoLocationRangeDto>(request);
 
-			var distanceServiceResponse = _distanceService.CalculateDistance(latLongPairDto, request.Locale);
+			var distanceServiceResponse = _distanceService.CalculateDistance(GeoLocationRangeDto, request.Locale);
 
 			return Ok(distanceServiceResponse);
 	}

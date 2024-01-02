@@ -21,7 +21,7 @@ public class DistanceService : IDistanceService
 		_mapper = mapper;
 	}
 
-	public CalculateDistanceResponse CalculateDistance(LatLongPairDto request, string locale)
+	public CalculateDistanceResponse CalculateDistance(GeoLocationRangeDto request, string locale)
 	{
 		double distance = _distanceCalculator.Calculate(request);
 

@@ -6,10 +6,10 @@ namespace Api.Models;
 public class CalculateDistanceRequest : IValidatableObject
 {
 	[Required]
-	public LatLongDto Start {get;set;}
+	public GeoLocationDto Start {get;set;}
 	
 	[Required]
-	public LatLongDto End {get;set;}
+	public GeoLocationDto End {get;set;}
 
 	// possible security concern having regex parameter validation.
 	// if I had more time I would move these locales to a static list, read from config 
@@ -18,7 +18,7 @@ public class CalculateDistanceRequest : IValidatableObject
 
 	// Usually I prefer annotation rules to define input boundaries (as above)
 	// But here we can do custom validation to have more control and
-	// move the responsibility to the request, so we can reuse a clean LatLongDto in the service layer
+	// move the responsibility to the request, so we can reuse a clean GeoLocationDto in the service layer
 	public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 	{
 		var results = new List<ValidationResult>();

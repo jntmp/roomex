@@ -40,8 +40,8 @@ public class DistanceControllerTest
     public void WhenCalculate_WithValidParams_Returns200WithValue()
     {
         var request = new CalculateDistanceRequest {
-            Start = new LatLongDto { Latitude = 1, Longitude = 1 },
-            End = new LatLongDto { Latitude = 2, Longitude = 2 },
+            Start = new GeoLocationDto { Latitude = 1, Longitude = 1 },
+            End = new GeoLocationDto { Latitude = 2, Longitude = 2 },
             Locale = "en-US"
         };
 
@@ -55,8 +55,8 @@ public class DistanceControllerTest
 		public void WhenCalculate_WithInValidParams_Returns400WithError()
     {
         var request = new CalculateDistanceRequest {
-            Start = new LatLongDto { Latitude = 91, Longitude = 1 },
-            End = new LatLongDto { Latitude = 2, Longitude = 2 },
+            Start = new GeoLocationDto { Latitude = 91, Longitude = 1 },
+            End = new GeoLocationDto { Latitude = 2, Longitude = 2 },
             Locale = "en-US"
         };
 

@@ -1,7 +1,7 @@
 
 namespace Api.Models;
 
-public class LatLongDto
+public class GeoLocationDto
 {
 	public double Latitude { get; set; }
 
