@@ -42,7 +42,11 @@ public class Program
 
 		// The default HTTP logging was too verbose and didn't include querysrtring
 		// So I added middleware to log relevant request / response data
-		app.UseCustomHttpLogging();
+		app.UseMiddleware<HttpLoggingMiddleware>();
+		
+		// handle unexpected errors for now with middleware,
+		// which should be mostly environmental in the current context 
+		app.UseMiddleware<ErrorHandlerMiddleware>();
 
 		app.MapControllers();
 
