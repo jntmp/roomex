@@ -5,6 +5,9 @@ using Api.Services.Interfaces;
 
 namespace Api.Services;
 
+/// <summary>
+/// A service layer to orchestrate the flow of logic between controller and utilities
+/// </summary>
 public class DistanceService : IDistanceService
 {
 	private readonly IDistanceCalculator _distanceCalculator;
@@ -24,7 +27,7 @@ public class DistanceService : IDistanceService
 
 		var converted = _localeService.ConvertDistance(distance, locale);
 
-		var response = _mapper.Map<CalculateDistanceResponse>(converted); 
+		var response = _mapper.Map<CalculateDistanceResponse>(converted);
 		response.DisplayDistance = _localeService.NumberFormat(converted.Distance, new CultureInfo(locale));
 
 		return response;

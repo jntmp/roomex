@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http;
 using Api;
 using Api.Models;
-using Api.Types;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -13,6 +12,10 @@ using System.Linq;
 
 namespace Test.Integrations;
 
+/// <summary>
+/// Some integration tests to run the Api and check request validation (model binding)
+/// A few sample tests, not thorough
+/// </summary>
 [TestClass]
 public class DistanceControllerTest
 {

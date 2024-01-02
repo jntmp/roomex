@@ -5,6 +5,9 @@ using Api.Services.Interfaces;
 
 namespace Api.Services;
 
+/// <summary>
+/// A utility helper to handle locale specific formatting 
+/// </summary>
 public class LocaleService : ILocaleService
 {
 		public string NumberFormat(double distance, CultureInfo cultureInfo)

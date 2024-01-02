@@ -1,10 +1,11 @@
-using Api.Types;
 using Api.Models;
-using System.Globalization;
 using Api.Services.Interfaces;
 
-namespace Api.Calculators;
+namespace Api.Services;
 
+/// <summary>
+/// A utility calculator to do the math calculation
+/// </summary>
 public class DistanceCalculator : IDistanceCalculator
 {
 	private const double EarthRadius = 6371.0;

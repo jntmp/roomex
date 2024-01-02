@@ -1,12 +1,14 @@
-using Api;
-using Api.Calculators;
-using Api.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Api.Services.Interfaces;
 using Api.Models;
+using Api.Services;
 
 namespace Test;
 
+/// <summary>
+/// Basic smoke tests to ensure the calculator math works
+/// Could be better
+/// </summary>
 [TestClass]
 public class DistanceCalculatorTest
 {
