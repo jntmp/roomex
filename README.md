@@ -1,6 +1,17 @@
 # RoomEx Api :earth_americas::straight_ruler:
 
 This is a sample Api to expose an endpoint to measure global distances by geo coordinates.
+
+## Assumptions
+
+I built this under the assumption that it would be a microservice, hosted in a cloud/k8s cluster.
+Therefore:
+* No need for HTTPS redirection. We could handle SSL termination at the API gateway, routing HTTP traffic to the backend service.
+* Logs to console are fine. We can employ a separate fluentd type service to scrape console output, and ship them to Grafana.
+* Exposed health check endpoint for k8s probes
+* Exposed HTTP metrics to ship to Grafanam, for dashboards/alerts.
+* Application is already dockerized, so CI setup would be minimal.
+
 ## Run with Docker
 #### Build
 ```
@@ -42,6 +53,5 @@ http://localhost:5039/swagger
 * Latitude must be between -90 and 90
 * Longitude must be between -180 and 180
 * Locale is optional, and defaults to `en-US` but can also be `en-GB` or `en-ZA`
-
 
 
