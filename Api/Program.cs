@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Api.Extensions;
 using Api.Services;
 using Api.Services.Interfaces;
+using Prometheus;
 
 namespace Api;
 
@@ -32,6 +33,13 @@ public class Program
 		builder.Services.AddSwaggerGen();
 		builder.Services.AddAutoMapper(typeof(ApiMappingProfile));
 
+		// Define a sample health check that always signals healthy state.
+		// Purely to indicate the service is running for kubernetes
+		builder.Services.AddHealthChecks()
+			.AddCheck<HealthCheck>(nameof(HealthCheck));
+
+		builder.Services.UseHttpClientMetrics();
+
 		var app = builder.Build();
 
 		if (app.Environment.IsDevelopment())
@@ -50,8 +58,19 @@ public class Program
 
 		app.MapControllers();
 
+		app.UseRouting();
+
+		// expose prometheus http metrics to ship to grafana
+		app.UseHttpMetrics();
+		app.UseEndpoints(endpoints => 
+		{
+			endpoints.MapMetrics();
+		});
+
+		// for kubernetes readiness/liveness probes
+		app.MapHealthChecks("/health");
+
 		app.Run();
 
 	}
 }
-

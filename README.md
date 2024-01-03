@@ -25,11 +25,18 @@ dotnet test
 #### Swagger
 http://localhost:5039/swagger
 
-## Endpoint
-#### Path
+## Endpoints
+#### Functional
 ```
 /Distance?Start.Latitude=1&Start.Longitude=2&End.Latitude=3&End.Longitude=4&Locale=en-GB
 ```
+#### Non-functional
+```
+/metrics
+/health
+
+```
+
 #### Parameters
 
 * Latitude must be between -90 and 90

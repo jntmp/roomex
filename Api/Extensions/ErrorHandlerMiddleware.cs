@@ -17,7 +17,7 @@ public class ErrorHandlerMiddleware : BaseMiddleware<ErrorHandlerMiddleware>
 		{
 			await _next(context);
 		}
-		catch (Exception error)
+		catch // omit the exception type since we dont use it, for now
 		{
 			var response = context.Response;
 			response.ContentType = MediaTypeNames.Application.Json;

@@ -11,21 +11,22 @@ public class HttpLoggingMiddleware : BaseMiddleware<HttpLoggingMiddleware>
 	{
 		var originalBodyStream = context.Response.Body;
 
-		using (var responseBody = new MemoryStream())
-		{
-			context.Response.Body = responseBody;
+		using var responseBody = new MemoryStream();
+		
+		context.Response.Body = responseBody;
 
-			await _next(context);
+		await _next(context);
 
-			responseBody.Seek(0, SeekOrigin.Begin);
+		responseBody.Seek(0, SeekOrigin.Begin);
 
-			var responseText = new StreamReader(responseBody).ReadToEnd();
+		using var streamReader = new StreamReader(responseBody);
+		var responseText = streamReader.ReadToEnd();
 
-			_logger.LogInformation($"Request: {context.Request.Path + context.Request.QueryString}");
-			_logger.LogInformation($"Response: {responseText}");
+		_logger.LogInformation($"Request: {context.Request.Path + context.Request.QueryString}");
+		_logger.LogInformation($"Response: {responseText}");
 
-			responseBody.Seek(0, SeekOrigin.Begin);
-			await responseBody.CopyToAsync(originalBodyStream);
-		}
+		responseBody.Seek(0, SeekOrigin.Begin);
+		await responseBody.CopyToAsync(originalBodyStream);
+
 	}
 }
